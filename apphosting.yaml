@@ -1,0 +1,16 @@
+# Firebase App Hosting configuration
+# This file tells the service how to run the container for this project.
+
+env:
+  - variable: PORT
+    value: 8080
+
+runConfig:
+  # The service expects the container to listen on the port provided in the PORT env variable.
+  # We've updated package.json and vite.config.ts to ensure Vite follows this.
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 10
+  timeoutSeconds: 60

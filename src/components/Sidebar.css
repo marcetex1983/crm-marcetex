@@ -4,13 +4,14 @@
   position: fixed;
   left: 0;
   top: 0;
-  background: var(--surface-container-lowest);
-  border-right: 1px solid var(--outline-variant);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-right: 1px solid var(--outline-variant); /* Ghost border a 15% opacidade conforme index.css */
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
   z-index: 100;
-  /* Architectural Lens: No heavy border if stacked, but since it's a fixed sidebar we use a light divider */
 }
 
 .sidebar-header {
@@ -47,7 +48,7 @@
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   color: var(--on-surface-variant);
   font-weight: 500;
   transition: all 0.2s ease;
@@ -59,9 +60,9 @@
 }
 
 .nav-link.active {
-  background-color: var(--primary);
+  background: var(--gradient-primary);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(25, 20, 151, 0.15);
+  box-shadow: var(--shadow-ambient);
 }
 
 .logout-btn {
@@ -74,7 +75,7 @@
   color: var(--on-surface-variant);
   font-weight: 500;
   text-align: left;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 .logout-btn:hover {
