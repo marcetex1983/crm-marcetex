@@ -7,7 +7,6 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border-right: 1px solid var(--outline-variant); /* Ghost border a 15% opacidade conforme index.css */
   display: flex;
   flex-direction: column;
   padding: 1.5rem;

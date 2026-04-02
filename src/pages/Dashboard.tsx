@@ -55,64 +55,106 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard">
       <header className="page-header">
-        <h1>Dashboard</h1>
+        <span className="label-md">Visão Geral</span>
+        <h1 className="headline-lg">Dashboard</h1>
         <p>Bem-vindo, {currentUser?.email?.split('@')[0]}</p>
       </header>
 
-      <section className="kpi-grid">
-        <Card title="Total de Clientes" className="kpi">
-          <div className="kpi-data">
-            <div className="icon-box blue"><Users size={24} /></div>
-            <span className="kpi-value">{stats.clients}</span>
+      {/* Hero Metric Section */}
+      <section className="hero-metric layer-2">
+        <div className="hero-content">
+          <span className="label-md">Valor em Negociação</span>
+          <h2 className="display-lg">
+            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(stats.totalValue)}
+          </h2>
+          <div className="hero-trend up">
+            <TrendingUp size={18} />
+            <span>+12.5% em relação ao mês anterior</span>
           </div>
-          <div className="kpi-trend up"><TrendingUp size={14} /> +12% este mês</div>
-        </Card>
-
-        <Card title="Propostas em Andamento" className="kpi">
-          <div className="kpi-data">
-            <div className="icon-box purple"><FileText size={24} /></div>
-            <span className="kpi-value">{stats.proposals}</span>
-          </div>
-          <div className="kpi-trend up"><TrendingUp size={14} /> +5% este mês</div>
-        </Card>
-
-        <Card title="Vendas Fechadas" className="kpi">
-          <div className="kpi-data">
-            <div className="icon-box green"><Briefcase size={24} /></div>
-            <span className="kpi-value">{stats.closedSales}</span>
-          </div>
-          <div className="kpi-trend up"><TrendingUp size={14} /> +2% este mês</div>
-        </Card>
-
-        <Card title="Valor em Negociação" className="kpi">
-          <div className="kpi-data">
-            <div className="icon-box gold"><DollarSign size={24} /></div>
-            <span className="kpi-value">
-              {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(stats.totalValue)}
-            </span>
-          </div>
-          <div className="kpi-trend down"><TrendingDown size={14} /> -1.5%</div>
-        </Card>
+        </div>
+        <div className="hero-action">
+          <button className="btn-primary">Nova Proposta</button>
+        </div>
       </section>
 
-      <section className="dashboard-charts">
-        <Card title="Pipeline por Status" className="chart-placeholder">
-          <div className="bar-chart-sim">
-            <div className="bar" style={{ height: '40%', backgroundColor: '#191497' }}><span>Lead</span></div>
-            <div className="bar" style={{ height: '70%', backgroundColor: '#4d4fc6' }}><span>Orçam.</span></div>
-            <div className="bar" style={{ height: '90%', backgroundColor: '#898cff' }}><span>Negoc.</span></div>
-            <div className="bar" style={{ height: '55%', backgroundColor: '#c0c1ff' }}><span>Aprov.</span></div>
+      <div className="asymmetric-layout">
+        <div className="main-stats">
+          <div className="stats-grid">
+            <div className="stat-item layer-2">
+              <span className="label-md">Clientes</span>
+              <div className="stat-row">
+                <span className="headline-md">{stats.clients}</span>
+                <Users size={20} className="stat-icon" />
+              </div>
+            </div>
+            
+            <div className="stat-item layer-2">
+              <span className="label-md">Propostas</span>
+              <div className="stat-row">
+                <span className="headline-md">{stats.proposals}</span>
+                <FileText size={20} className="stat-icon" />
+              </div>
+            </div>
+
+            <div className="stat-item layer-2">
+              <span className="label-md">Vendas</span>
+              <div className="stat-row">
+                <span className="headline-md">{stats.closedSales}</span>
+                <Briefcase size={20} className="stat-icon" />
+              </div>
+            </div>
           </div>
-        </Card>
-        
-        <Card title="Últimas Atividades" className="recent-activity">
+
+          <div className="pipeline-view layer-2">
+            <h3 className="headline-md">Pipeline por Status</h3>
+            <div className="bar-chart-sim">
+              <div className="bar-group">
+                <div className="bar" style={{ height: '40%', backgroundColor: 'var(--primary-container)' }}></div>
+                <span className="label-md">Lead</span>
+              </div>
+              <div className="bar-group">
+                <div className="bar" style={{ height: '70%', backgroundColor: '#4d4fc6' }}></div>
+                <span className="label-md">Orçam.</span>
+              </div>
+              <div className="bar-group">
+                <div className="bar" style={{ height: '90%', backgroundColor: '#898cff' }}></div>
+                <span className="label-md">Negoc.</span>
+              </div>
+              <div className="bar-group">
+                <div className="bar" style={{ height: '55%', backgroundColor: '#c0c1ff' }}></div>
+                <span className="label-md">Aprov.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside className="secondary-info layer-2">
+          <h3 className="headline-md">Atividades Recentes</h3>
           <ul className="activity-list">
-            <li>Novo cliente adicionado: <strong>Arquiteta Juliana</strong></li>
-            <li>Proposta atualizada para: <strong>Vidro Temperado 10mm</strong></li>
-            <li>Reunião marcada com <strong>Escritório XP</strong></li>
+            <li>
+              <div className="activity-marker"></div>
+              <div className="activity-content">
+                <p>Novo cliente adicionado: <strong>Arquiteta Juliana</strong></p>
+                <span className="label-md">Há 2 horas</span>
+              </div>
+            </li>
+            <li>
+              <div className="activity-marker"></div>
+              <div className="activity-content">
+                <p>Proposta atualizada: <strong>Vidro Temperado 10mm</strong></p>
+                <span className="label-md">Há 5 horas</span>
+              </div>
+            </li>
+            <li>
+              <div className="activity-marker"></div>
+              <div className="activity-content">
+                <p>Reunião marcada com <strong>Escritório XP</strong></p>
+                <span className="label-md">Ontem</span>
+              </div>
+            </li>
           </ul>
-        </Card>
-      </section>
+        </aside>
+      </div>
     </div>
   );
 };

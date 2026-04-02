@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, addDoc, query, where, getDocs, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
-import Card from '../components/Card';
+// import Card from '../components/Card'; // Removed as it is now unused in favor of layer-2 divs
 import { Plus, Search, MapPin, Phone, Mail } from 'lucide-react';
 import './Clients.css';
 
@@ -64,19 +64,20 @@ const Clients: React.FC = () => {
     <div className="clients-page">
       <header className="page-header">
         <div className="header-text">
-          <h1>Clientes</h1>
+          <span className="label-md">CRM base</span>
+          <h1 className="headline-lg">Clientes</h1>
           <p>Gerencie sua base de contatos e parceiros.</p>
         </div>
-        <button className="add-btn" onClick={() => setShowModal(true)}>
+        <button className="btn-primary" onClick={() => setShowModal(true)}>
           <Plus size={20} />
-          Novo Cliente
+          <span>Novo Cliente</span>
         </button>
       </header>
 
       <section className="clients-toolbar">
-        <div className="search-bar">
+        <div className="search-bar layer-2">
           <Search size={18} />
-          <input type="text" placeholder="Buscar clientes..." />
+          <input type="text" placeholder="Buscar clientes ou parceiros..." />
         </div>
       </section>
 
@@ -88,17 +89,19 @@ const Clients: React.FC = () => {
             <p className="empty-state">Nenhum cliente cadastrado.</p>
           ) : (
             clients.map(client => (
-              <Card key={client.id} className="client-card">
-                <div className="client-type-badge">{client.type}</div>
-                <h3 className="client-name">{client.name}</h3>
-                <p className="client-company">{client.company}</p>
+              <div key={client.id} className="client-card layer-2">
+                <div className="client-card-header">
+                  <span className="label-md">{client.type}</span>
+                  <h3 className="headline-md">{client.name}</h3>
+                  <p className="client-company">{client.company}</p>
+                </div>
                 
                 <div className="client-details">
-                  <div className="detail-item"><Mail size={14} /> {client.email}</div>
-                  <div className="detail-item"><Phone size={14} /> {client.phone}</div>
-                  <div className="detail-item"><MapPin size={14} /> {client.city}</div>
+                  <div className="detail-item"><Mail size={14} /> <span>{client.email}</span></div>
+                  <div className="detail-item"><Phone size={14} /> <span>{client.phone}</span></div>
+                  <div className="detail-item"><MapPin size={14} /> <span>{client.city}</span></div>
                 </div>
-              </Card>
+              </div>
             ))
           )}
         </div>
