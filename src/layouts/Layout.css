@@ -1,0 +1,22 @@
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.content {
+  flex: 1;
+  margin-left: 260px; /* Width of the sidebar */
+  padding: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .layout-container {
+    flex-direction: column;
+  }
+  
+  .content {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+}
