@@ -18,10 +18,18 @@ service cloud.firestore {
     }
 
     match /clients/{clientId} {
-      // For create: check if the sent userId matches the auth uid
       allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
-      // For read/update/delete: check if the existing document's userId matches the auth uid
       allow read, update, delete: if isAuthenticated() && isOwner(resource.data.userId);
+    }
+
+    match /prospects/{prospectId} {
+      allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
+      allow read, update, delete: if isAuthenticated() && isOwner(resource.data.userId);
+    }
+
+    match /interactions/{interactionId} {
+      allow create: if isAuthenticated();
+      allow read, update, delete: if isAuthenticated();
     }
 
     match /projects/{projectId} {

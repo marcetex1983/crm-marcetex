@@ -4,12 +4,23 @@
   background-color: var(--background);
 }
 
+.main-wrapper {
+  flex: 1;
+  margin-left: 260px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout-container.sidebar-collapsed .main-wrapper {
+  margin-left: 80px;
+}
+
 .content {
   flex: 1;
-  margin-left: 260px; /* Width of the sidebar */
-  padding: 3.5rem; /* Aumentando padding para visual editorial 'airy' */
+  padding: 3.5rem;
   background-color: var(--surface-container-low);
-  min-height: 100vh;
 }
 
 @media (max-width: 768px) {
@@ -17,8 +28,15 @@
     flex-direction: column;
   }
   
-  .content {
+  .main-wrapper {
     margin-left: 0;
+  }
+  
+  .layout-container.sidebar-collapsed .main-wrapper {
+    margin-left: 0;
+  }
+  
+  .content {
     padding: 1.5rem;
   }
 }

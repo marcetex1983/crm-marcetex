@@ -1,10 +1,15 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, FolderKanban, Briefcase, CheckSquare, User, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, FolderKanban, Briefcase, CheckSquare, User, LogOut, PanelLeftClose, PanelLeft } from 'lucide-react';
 import { auth } from '../firebase';
 import './Sidebar.css';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  collapsed: boolean;
+  onToggle: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -18,7 +23,7 @@ const Sidebar: React.FC = () => {
 
   const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
-    { name: 'Clientes', path: '/clients', icon: Users },
+    { name: 'Prospects', path: '/clients', icon: Users },
     { name: 'Projetos', path: '/projects', icon: Briefcase },
     { name: 'Pipeline', path: '/pipeline', icon: FolderKanban },
     { name: 'Tarefas', path: '/tasks', icon: CheckSquare },
@@ -26,10 +31,10 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
         <img src="/crm_marcetex.png" alt="Marcetex Logo" className="logo" />
-        <h1 className="brand-name">Marcetex</h1>
+        {!collapsed && <h1 className="brand-name">Marcetex</h1>}
       </div>
       
       <nav className="sidebar-nav">
@@ -38,17 +43,29 @@ const Sidebar: React.FC = () => {
             key={item.path} 
             to={item.path} 
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+            title={collapsed ? item.name : undefined}
           >
             <item.icon size={20} />
-            <span>{item.name}</span>
+            {!collapsed && <span>{item.name}</span>}
           </NavLink>
         ))}
       </nav>
 
-      <button onClick={handleLogout} className="logout-btn">
-        <LogOut size={20} />
-        <span>Sair</span>
-      </button>
+      <div className="sidebar-footer">
+        <button 
+          onClick={onToggle} 
+          className="toggle-btn"
+          title={collapsed ? 'Expandir menu' : 'Recolher menu'}
+        >
+          {collapsed ? <PanelLeft size={20} /> : <PanelLeftClose size={20} />}
+          {!collapsed && <span>Recolher</span>}
+        </button>
+        
+        <button onClick={handleLogout} className="logout-btn">
+          <LogOut size={20} />
+          {!collapsed && <span>Sair</span>}
+        </button>
+      </div>
     </aside>
   );
 };

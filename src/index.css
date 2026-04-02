@@ -1,7 +1,15 @@
 :root {
   --primary: #07006b;
   --primary-container: #191497;
+  --primary-light: #2d2bb8;
+  --primary-darken: #05054d;
   --on-primary: #ffffff;
+  --on-primary-container: #ffffff;
+  
+  --success: #22c55e;
+  --error: #ef4444;
+  --error-container: #fef2f2;
+  --on-error: #ffffff;
   
   --background: #f8f9fa;
   --surface: #f8f9fa;
@@ -15,7 +23,7 @@
   --surface-container-highest: #e1e3e4;
   
   --outline: #777685;
-  --outline-variant: rgba(119, 118, 133, 0.15); /* Ghost Border a 15% */
+  --outline-variant: rgba(119, 118, 133, 0.15);
   
   --font-headline: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -26,8 +34,9 @@
   --radius-xl: 1.5rem;
 
   --shadow-ambient: 0px 12px 32px rgba(25, 20, 29, 0.04);
+  --shadow-elevation: 0px 4px 16px rgba(25, 20, 29, 0.08);
   --glass-blur: blur(20px);
-  --glass-bg: rgba(248, 249, 250, 0.9); /* Surface a 90% para Glass Sidebar */
+  --glass-bg: rgba(248, 249, 250, 0.9);
 
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
 }
@@ -51,6 +60,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-headline);
   font-weight: 700;
   color: var(--on-surface);
+}
+
+svg {
+  stroke: currentColor;
 }
 
 .display-lg {
@@ -86,6 +99,15 @@ button {
   font-family: var(--font-body);
   transition: all 0.2s ease;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+button svg {
+  stroke: currentColor;
+  flex-shrink: 0;
 }
 
 .btn-primary {

@@ -5,6 +5,8 @@ import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Clients from './pages/Clients';
+import ClientRegistration from './pages/ClientRegistration';
+import ProspectDetail from './pages/ProspectDetail';
 
 // Placeholder components for other pages
 const Placeholder = ({ name }: { name: string }) => (
@@ -30,6 +32,24 @@ function App() {
             } 
           />
           
+          <Route 
+            path="/clients/new" 
+            element={
+              <ProtectedRoute>
+                <AppLayout><ClientRegistration /></AppLayout>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/clients/:id" 
+            element={
+              <ProtectedRoute>
+                <AppLayout><ProspectDetail /></AppLayout>
+              </ProtectedRoute>
+            } 
+          />
+
           <Route 
             path="/clients" 
             element={

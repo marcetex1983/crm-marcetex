@@ -10,19 +10,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.page-header {
-  margin-bottom: 2.5rem;
-}
-
-.page-header h1 {
-  margin-bottom: 0.5rem;
-}
-
-.page-header p {
-  color: var(--on-surface-variant);
-  font-size: 1.1rem;
-}
-
 /* Hero Metric */
 .hero-metric {
   padding: 3rem;
@@ -107,30 +94,62 @@
   margin-bottom: 2rem;
 }
 
-.bar-chart-sim {
-  display: flex;
-  align-items: flex-end;
-  gap: 2.5rem;
-  height: 250px;
-  padding: 2rem 0;
-}
-
-.bar-group {
-  flex: 1;
+.sales-funnel {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 1.5rem 0;
+}
+
+.funnel-step-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-ambient);
+  transition: all 0.3s ease;
+  min-height: 70px;
+}
+
+.funnel-step-card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-elevation);
+}
+
+.funnel-step-left {
+  display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.bar {
-  width: 100%;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  transition: transform 0.3s ease;
+.funnel-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  font-family: var(--font-headline);
 }
 
-.bar:hover {
-  transform: scaleY(1.05);
+.funnel-count {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--font-headline);
+}
+
+.funnel-arrow {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #cbd5e1; /* Gray arrow color */
 }
 
 /* Activity Sidebar */
