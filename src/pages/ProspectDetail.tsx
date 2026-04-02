@@ -112,7 +112,7 @@ const ProspectDetail: React.FC = () => {
         </button>
         
         <div className="header-actions">
-          <button className="btn-primary">
+          <button className="btn-primary" onClick={() => navigate(`/clients/${id}/edit`)}>
             <Edit2 size={18} />
             <span>Editar</span>
           </button>

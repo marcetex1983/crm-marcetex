@@ -12,6 +12,14 @@ const stageColors: Record<string, string> = {
   declinado: '#ef4444',
   fechado: '#22c55e'
 };
+
+const stageLabels: Record<string, string> = {
+  prospeccao: 'Prospecção',
+  qualificado: 'Qualificado',
+  proposta: 'Proposta',
+  declinado: 'Declinado',
+  fechado: 'Fechado'
+};
 import PageTitle from '../components/PageTitle';
 import './Clients.css';
 
@@ -83,6 +91,9 @@ const Clients: React.FC = () => {
                   </button>
                 </div>
                 <div className="client-card-header" onClick={() => navigate(`/clients/${client.id}`)}>
+                  <div className="stage-badge" style={{ backgroundColor: stageColors[client.stage] || '#6b7280' }}>
+                    {stageLabels[client.stage] || client.stage}
+                  </div>
                   <span className="label-md">{client.type}</span>
                   <h3 className="headline-md">{client.name}</h3>
                   <p className="client-company">{client.company}</p>
