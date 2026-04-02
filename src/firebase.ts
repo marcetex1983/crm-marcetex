@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD3kBbXYP7OOs3Vy7wt4y-Mlvwzw98f9nM",
-  authDomain: "crm-marcetex-2024.firebaseapp.com",
-  projectId: "crm-marcetex-2024",
-  storageBucket: "crm-marcetex-2024.firebasestorage.app",
-  messagingSenderId: "832892599637",
-  appId: "1:832892599637:web:d96298e00902782f2b03dc"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
