@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
+  const [emailPrefix, setEmailPrefix] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const email = emailPrefix ? `${emailPrefix}@marcetex.com.br` : '';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        await createUserWithEmailAndPassword(auth, email, password);
-      }
-      navigate('/');
+      await signInWithEmailAndPassword(auth, email, password);
+      setSuccess('Login realizado com sucesso!');
+      setTimeout(() => navigate('/'), 1000);
     } catch (err: any) {
       setError(err.message || 'Ocorreu um erro ao autenticar.');
     } finally {
@@ -36,22 +36,23 @@ const Login: React.FC = () => {
       <div className="login-card">
         <div className="login-header">
           <img src="/crm_marcetex.png" alt="Marcetex Logo" className="login-logo" />
-          <h1>Marcetex CRM</h1>
-          <p>{isLogin ? 'Faça login para acessar suas vendas' : 'Crie sua conta de vendedor'}</p>
+          <h1>MARCETEX</h1>
+          <p>Faça login para acessar suas vendas</p>
         </div>
-
-        {error && <div className="error-alert">{error}</div>}
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label>E-mail</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              placeholder="exemplo@marcetex.com.br"
-              required 
-            />
+            <label>Usuário</label>
+            <div className="email-input-wrapper">
+              <input 
+                type="text" 
+                value={emailPrefix} 
+                onChange={(e) => setEmailPrefix(e.target.value)} 
+                placeholder="seu.usuario"
+                required 
+              />
+              <span className="email-domain">@marcetex.com.br</span>
+            </div>
           </div>
 
           <div className="form-group">
@@ -65,16 +66,13 @@ const Login: React.FC = () => {
             />
           </div>
 
+          {error && <div className="error-alert">{error}</div>}
+          {success && <div className="success-alert">{success}</div>}
+
           <button type="submit" disabled={loading} className="submit-btn">
-            {loading ? 'Processando...' : (isLogin ? 'Entrar' : 'Cadastrar')}
+            {loading ? 'Processando...' : 'Entrar'}
           </button>
         </form>
-
-        <div className="login-footer">
-          <button onClick={() => setIsLogin(!isLogin)} className="toggle-btn">
-            {isLogin ? 'Ainda não tem conta? Cadastre-se' : 'Já tem uma conta? Faça login'}
-          </button>
-        </div>
       </div>
     </div>
   );

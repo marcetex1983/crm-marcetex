@@ -42,10 +42,28 @@ function App() {
           />
 
           <Route 
+            path="/clients/:id/edit" 
+            element={
+              <ProtectedRoute>
+                <AppLayout><ClientRegistration /></AppLayout>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
             path="/clients/:id" 
             element={
               <ProtectedRoute>
                 <AppLayout><ProspectDetail /></AppLayout>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/clients/:id/edit" 
+            element={
+              <ProtectedRoute>
+                <AppLayout><ClientRegistration /></AppLayout>
               </ProtectedRoute>
             } 
           />

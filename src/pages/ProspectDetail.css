@@ -2,6 +2,11 @@
   animation: fadeIn 0.4s ease-out;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .detail-header {
   display: flex;
   justify-content: space-between;
@@ -31,6 +36,23 @@
 .header-actions {
   display: flex;
   gap: 1rem;
+}
+
+.delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: var(--error-container);
 }
 
 .detail-content {
@@ -94,6 +116,94 @@
   color: white;
   font-weight: 600;
   font-size: 0.85rem;
+}
+
+.temperature-display {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.thermometer-container {
+  flex: 1;
+  position: relative;
+  height: 60px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+
+.thermometer-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: var(--outline-variant);
+  border-radius: 4px;
+  transform: translateY(-50%);
+}
+
+.thermometer-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.2s ease, background-color 0.3s ease;
+}
+
+.thermometer-labels {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.thermometer-dot {
+  position: absolute;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thermometer-dot.active {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.thermometer-emoji {
+  font-size: 1rem;
+}
+
+.thermometer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 80px;
+}
+
+.thermometer-current-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.thermometer-hint {
+  font-size: 0.7rem;
+  color: var(--on-surface-variant);
+  opacity: 0.7;
 }
 
 .prospect-details-grid {
@@ -199,17 +309,129 @@
   background: var(--surface-container-low);
   border-radius: var(--radius-md);
   border-left: 3px solid var(--primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .interaction-card p {
-  margin: 0 0 0.75rem 0;
+  margin: 0;
   color: var(--on-surface);
   line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.interaction-file-attachment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-sm);
+  margin-top: 0.25rem;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--on-surface-variant);
+  font-size: 0.85rem;
+}
+
+.file-info svg {
+  color: var(--primary);
+}
+
+.btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--primary);
+  transition: all 0.2s ease;
+}
+
+.btn-download:hover {
+  background: var(--primary-container);
+  color: white;
+}
+
+.interaction-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .interaction-date {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--on-surface-variant);
+  opacity: 0.7;
+}
+
+.interaction-extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.file-upload-zone {
+  flex: 1;
+}
+
+.btn-attach {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px dashed var(--outline-variant);
+  border-radius: var(--radius-sm);
+  color: var(--on-surface-variant);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-attach:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--surface-container-low);
+}
+
+.selected-file-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--primary-container);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.file-name {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-remove-file {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.btn-remove-file:hover {
+  color: white;
 }
 
 .loading {
@@ -231,5 +453,14 @@
   
   .prospect-details-grid {
     grid-template-columns: 1fr;
+  }
+
+  .interaction-extras {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-interaction .btn-primary {
+    align-self: stretch;
   }
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,6 +9,7 @@ import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     clients: 0,
     proposals: 0,
@@ -69,11 +71,11 @@ const Dashboard: React.FC = () => {
   if (loading) return <div className="loading">Carregando painel...</div>;
 
   const funnelItems = [
-    { label: 'PROSPECÇÃO', value: stats.funnel.prospeccao, width: '100%', color: '#3b82f6', icon: Target },
-    { label: 'QUALIFICADO', value: stats.funnel.qualificado, width: '90%', color: '#a855f7', icon: UserCheck },
-    { label: 'NEGOCIAÇÃO PROPOSTA', value: stats.funnel.proposta, width: '80%', color: '#f59e0b', icon: FileText },
-    { label: 'DECLINADO / PERDIDO', value: stats.funnel.declinado, width: '70%', color: '#ef4444', icon: XCircle },
-    { label: 'FECHADO', value: stats.funnel.fechado, width: '60%', color: '#22c55e', icon: CheckCircle },
+    { label: 'PROSPECÇÃO', value: stats.funnel.prospeccao, width: '100%', color: '#3b82f6', icon: Target, stage: 'prospeccao' },
+    { label: 'QUALIFICADO', value: stats.funnel.qualificado, width: '90%', color: '#a855f7', icon: UserCheck, stage: 'qualificado' },
+    { label: 'NEGOCIAÇÃO PROPOSTA', value: stats.funnel.proposta, width: '80%', color: '#f59e0b', icon: FileText, stage: 'proposta' },
+    { label: 'DECLINADO / PERDIDO', value: stats.funnel.declinado, width: '70%', color: '#ef4444', icon: XCircle, stage: 'declinado' },
+    { label: 'FECHADO', value: stats.funnel.fechado, width: '60%', color: '#22c55e', icon: CheckCircle, stage: 'fechado' },
   ];
 
   return (
@@ -135,10 +137,12 @@ const Dashboard: React.FC = () => {
                   <React.Fragment key={index}>
                     <div 
                       className="funnel-step-card" 
+                      onClick={() => navigate(`/clients?stage=${item.stage}`)}
                       style={{ 
                         width: item.width,
                         borderColor: isZero ? 'var(--outline-variant)' : item.color,
-                        backgroundColor: isZero ? 'var(--surface-container-low)' : `${item.color}08`
+                        backgroundColor: isZero ? 'var(--surface-container-low)' : `${item.color}08`,
+                        cursor: 'pointer'
                       }}
                     >
                       <div className="funnel-step-left">

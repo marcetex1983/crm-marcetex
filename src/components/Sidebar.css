@@ -68,21 +68,33 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: var(--radius-sm);
-  color: var(--on-surface-variant);
+  color: #191497;
   font-weight: 500;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
+.nav-link svg {
+  color: #191497;
+}
+
 .nav-link:hover {
-  background-color: var(--surface-container-low);
-  color: var(--primary);
+  background-color: rgba(25, 20, 151, 0.1);
+  color: #191497;
+}
+
+.nav-link:hover svg {
+  color: #191497;
 }
 
 .nav-link.active {
-  background: var(--gradient-primary);
-  color: #ffffff;
+  background: #191497;
+  color: white;
   box-shadow: var(--shadow-ambient);
+}
+
+.nav-link.active svg {
+  color: white;
 }
 
 .nav-link span {

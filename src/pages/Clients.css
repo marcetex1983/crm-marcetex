@@ -16,6 +16,40 @@
 
 .clients-toolbar {
   margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--surface-container-low);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem;
+}
+
+.view-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+  color: #191497;
+}
+
+.view-btn.active {
+  background: #191497;
+  color: white;
 }
 
 .search-bar {
@@ -41,8 +75,56 @@
 
 .clients-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+  gap: 1.5rem;
+  justify-content: start;
+}
+
+.client-card {
+  padding: 1.5rem;
+  box-shadow: var(--shadow-ambient);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: var(--radius-md);
+}
+
+.clients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.client-card.list {
+  padding: 1rem 1.5rem;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.client-card.list .card-top-row {
+  position: static;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.client-card.list .client-card-header {
+  flex: 1;
+}
+
+.client-card.list .client-details {
+  flex-direction: row;
+  gap: 1.5rem;
+  padding-top: 0;
+  border-top: none;
+  padding-left: 1rem;
+  border-left: 1px solid var(--outline-variant);
+}
+
+.client-card.list:hover {
+  transform: translateY(-2px);
 }
 
 .client-card {
@@ -108,7 +190,24 @@
   font-size: 0.75rem;
   font-weight: 600;
   width: fit-content;
-  margin-bottom: 0.25rem;
+}
+
+.card-badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.temperature-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .client-company {
@@ -573,6 +672,25 @@
   cursor: not-allowed;
 }
 
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  background: transparent;
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: var(--error-container);
+  color: var(--error);
+}
+
 .btn-primary {
   display: flex;
   align-items: center;
@@ -672,5 +790,61 @@
   .actions-right {
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+/* Temperature Selector */
+.temperature-selector {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.temperature-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  background: var(--surface-container-low);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.temperature-btn:hover {
+  background: var(--surface-container-high);
+  transform: translateY(-2px);
+}
+
+.temperature-btn.selected {
+  background: var(--surface);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.temp-icon {
+  font-size: 1.5rem;
+}
+
+.temp-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+}
+
+.temperature-btn.selected .temp-label {
+  color: var(--temp-color);
+}
+
+@media (max-width: 600px) {
+  .temperature-selector {
+    flex-wrap: wrap;
+  }
+  
+  .temperature-btn {
+    flex: 1 1 calc(33.333% - 0.5rem);
+    min-width: 80px;
   }
 }

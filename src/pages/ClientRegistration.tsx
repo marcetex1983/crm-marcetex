@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { useNavigate, useParams } from 'react-router-dom';
+import { collection, addDoc, doc, getDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Phone, User, FileText, ChevronRight, ChevronLeft, Check, ArrowLeft, PenTool, HardHat, Briefcase } from 'lucide-react';
@@ -8,9 +8,11 @@ import './Clients.css';
 
 const ClientRegistration: React.FC = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { currentUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(!!id);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -21,8 +23,48 @@ const ClientRegistration: React.FC = () => {
     type: 'arquiteto',
     birthday: '',
     stage: 'prospeccao',
+    temperature: 'gelado',
     notes: ''
   });
+
+  const temperatures = [
+    { value: 'gelado', label: 'Gelado', color: '#94a3b8', icon: '❄️' },
+    { value: 'frio', label: 'Frio', color: '#3b82f6', icon: '🧊' },
+    { value: 'morno', label: 'Morno', color: '#22c55e', icon: '🌡️' },
+    { value: 'quente', label: 'Quente', color: '#f59e0b', icon: '🔥' },
+    { value: 'fogo', label: 'Fogo', color: '#ef4444', icon: '💥' }
+  ];
+
+  React.useEffect(() => {
+    const fetchProspect = async () => {
+      if (!id || !currentUser) return;
+      try {
+        const docRef = doc(db, 'prospects', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setFormData({
+            name: data.name || '',
+            company: data.company || '',
+            phone: data.phone || '',
+            email: data.email || '',
+            city: data.city || '',
+            type: data.type || 'arquiteto',
+            birthday: data.birthday || '',
+            stage: data.stage || 'prospeccao',
+            temperature: data.temperature || 'gelado',
+            notes: data.notes || ''
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching prospect:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProspect();
+  }, [id, currentUser]);
 
   const stages = [
     { value: 'prospeccao', label: 'Prospecção' },
@@ -55,6 +97,12 @@ const ClientRegistration: React.FC = () => {
     if (currentStep > 1) setCurrentStep(prev => prev - 1);
   };
 
+const handleCancel = () => {
+    if (window.confirm('Tem certeza que deseja cancelar? Os dados não salvos serão perdidos.')) {
+      navigate('/clients');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser) return;
@@ -66,17 +114,28 @@ const ClientRegistration: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      await addDoc(collection(db, 'prospects'), {
-        ...formData,
-        userId: currentUser.uid,
-        createdAt: Timestamp.now()
-      });
-      navigate('/clients');
+      if (id) {
+        await updateDoc(doc(db, 'prospects', id), {
+          ...formData,
+          updatedAt: Timestamp.now()
+        });
+      } else {
+        await addDoc(collection(db, 'prospects'), {
+          ...formData,
+          userId: currentUser.uid,
+          createdAt: Timestamp.now()
+        });
+      }
+      navigate(id ? `/clients/${id}` : '/clients');
     } catch (error) {
-      console.error('Error adding prospect', error);
+      console.error('Error saving prospect', error);
       setIsSubmitting(false);
     }
   };
+
+  if (loading) {
+    return <div className="loading-state">Carregando dados...</div>;
+  }
 
   return (
     <div className="client-registration-page">
@@ -86,8 +145,8 @@ const ClientRegistration: React.FC = () => {
           <span>Voltar para Prospects</span>
         </button>
         <div className="header-center">
-          <h1 className="headline-md">Novo Prospect</h1>
-          <p>Preencha as informações para cadastrar um novo prospect.</p>
+          <h1 className="headline-md">{id ? 'Editar Prospect' : 'Novo Prospect'}</h1>
+          <p>{id ? 'Atualize as informações do seu prospect.' : 'Preencha as informações para cadastrar um novo prospect.'}</p>
         </div>
       </header>
 
@@ -290,6 +349,27 @@ const ClientRegistration: React.FC = () => {
                   </div>
 
                   <div className="form-group">
+                    <label>Termômetro da Negociação</label>
+                    <div className="temperature-selector">
+                      {temperatures.map((temp) => (
+                        <button
+                          key={temp.value}
+                          type="button"
+                          className={`temperature-btn ${formData.temperature === temp.value ? 'selected' : ''}`}
+                          style={{
+                            '--temp-color': temp.color,
+                            borderColor: formData.temperature === temp.value ? temp.color : 'transparent'
+                          } as React.CSSProperties}
+                          onClick={() => setFormData({...formData, temperature: temp.value})}
+                        >
+                          <span className="temp-icon">{temp.icon}</span>
+                          <span className="temp-label">{temp.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="form-group">
                     <label htmlFor="notes">Observações <span className="optional">(opcional)</span></label>
                     <textarea
                       id="notes"
@@ -304,6 +384,14 @@ const ClientRegistration: React.FC = () => {
             </div>
 
             <div className="form-actions">
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={handleCancel}
+              >
+                <span>Cancelar</span>
+              </button>
+
               <button
                 type="button"
                 className="btn-secondary"
